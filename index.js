@@ -24,22 +24,29 @@ db.sequelize
         console.error('Unable to connect to the database:', err);
     });
 
+
 db.sequelize
-    .sync({ force: true })
+    .sync({ alter: true })
     .then(() =>
-        console.log("Done adding/updating by force the database based on the Models.")
+        console.log("Done adding/updating the database based on the Models.")
     );
+
 
 
 // ---------------------------------------------------------------------------
 
 
-app.get("/", (req, res) => {
+// Routes
+const levelRoute = require("./src/routes/level.route");
+
+
+app.get("/welcome", (req, res) => {
     res.json({
         message: "Welcome to Only Student"
     });
 });
 
+app.use(`${process.env.API_BASEURL}/level`, levelRoute);
 
 // ---------------------------------------------------------------------------
 

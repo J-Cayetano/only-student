@@ -1,8 +1,10 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+
+const PROTECTED_ATTR = ["leve_id"];
+
 module.exports = (sequelize, DataTypes) => {
+
   class s_level extends Model {
     /**
      * Helper method for defining associations.
@@ -12,10 +14,20 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
+
+    toJSON() {
+      const attr = { ...this.get() };
+
+      for (const x of PROTECTED_ATTR) {
+        delete attr[x];
+      }
+      return attr;
+    }
   }
+
   s_level.init(
     {
-      level_id: {
+      leve_id: {
         type: DataTypes.UUID,
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4
@@ -25,19 +37,14 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         unique: true,
         validate: {
-          isAlpha: { error: "Level name should only contain Alphabets." },
-          notNull: { error: "Level name should not be null." },
-          notEmpty: { error: "Level name should not be empty." }
+          isAlpha: { message: "Level name should only contain Alphabets." },
+          notNull: { message: "Level name should not be null." },
+          notEmpty: { message: "Level name should not be empty." }
         }
       },
       leve_description: {
         type: DataTypes.STRING,
-        allowNull: true,
-        validate: {
-          isAlphanumeric: true,
-          len: [5 - 30],
-          notEmpty: true
-        }
+        allowNull: true
       },
     },
     {
@@ -45,7 +52,9 @@ module.exports = (sequelize, DataTypes) => {
       modelName: 's_level',
       timestamps: true,
       createdAt: "leve_createdAt",
-      updatedAt: "leve_updatedAt"
+      updatedAt: "leve_updatedAt",
+      paranoid: true,
+      deletedAt: "leve_deletedAt"
     }
   );
   return s_level;
