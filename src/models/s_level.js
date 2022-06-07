@@ -36,10 +36,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
+
         validate: {
-          isAlpha: { message: "Level name should only contain Alphabets." },
-          notNull: { message: "Level name should not be null." },
-          notEmpty: { message: "Level name should not be empty." }
+          isAlpha: { msg: "Level name should only contain Alphabets." },
+          notNull: { msg: "Level name should not be null." },
+          notEmpty: { msg: "Level name should not be empty." }
         }
       },
       leve_description: {
@@ -47,6 +48,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true
       },
     },
+
+
     {
       sequelize,
       modelName: 's_level',
