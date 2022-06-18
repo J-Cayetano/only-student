@@ -1,7 +1,7 @@
 'use strict';
 const { Model } = require('sequelize');
 
-const PROTECTED_ATTR = ["leve_id"];
+const PROTECTED_ATTR = [""];
 
 module.exports = (sequelize, DataTypes) => {
 
@@ -38,7 +38,6 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
 
         validate: {
-          isAlpha: { msg: "Level name should only contain Alphabets." },
           notNull: { msg: "Level name should not be null." },
           notEmpty: { msg: "Level name should not be empty." }
         }
@@ -48,7 +47,6 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true
       },
     },
-
 
     {
       sequelize,

@@ -1,18 +1,18 @@
 const db = require("../models");
-const Level = db.s_level;
-const bcrypt = require("bcrypt");
+const User = db.user_account;
 const datatable = require(`sequelize-datatables`);
 const { Op } = require("sequelize");
+
 
 
 // Create and Save an Instance
 exports.create = async (req, res) => {
 
-    Level.create(req.body).then((data) => {
+    User.create(req.body).then((data) => {
         res.send({
             error: false,
             data: data,
-            message: "Level is created successfully."
+            message: "User is created successfully."
         });
     }).catch((err) => {
         res.status(500).send({
@@ -24,13 +24,13 @@ exports.create = async (req, res) => {
 };
 
 // Retrieve all Instances
-exports.findAll = (req, res) => {
+exports.findAll = async (req, res) => {
 
-    Level.findAll().then((data) => {
+    User.findAll({ where: { user_accountType: { [Op.ne]: "admin" } } }).then((data) => {
         res.send({
             error: false,
             data: data,
-            message: "Levels are retrieved successfully."
+            message: "Users are retrieved successfully."
         });
     }).catch((err) => {
         res.status(500).send({
@@ -49,7 +49,7 @@ exports.findOne = (req, res) => {
         res.send({
             error: false,
             data: data,
-            message: `Level with ${id} retrieved successfully.`
+            message: `User with ${id} retrieved successfully.`
         });
     }).catch((err) => {
         res.status(500).send({

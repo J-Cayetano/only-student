@@ -37,8 +37,8 @@ db.sequelize
 
 
 // Routes
+const userRoute = require("./src/routes/user.route");
 const levelRoute = require("./src/routes/level.route");
-
 
 app.get("/welcome", (req, res) => {
     res.json({
@@ -46,8 +46,9 @@ app.get("/welcome", (req, res) => {
     });
 });
 
+app.use(`${process.env.API_BASEURL}/user`, userRoute);
 app.use(`${process.env.API_BASEURL}/level`, levelRoute);
-
+// localhost:3600/only-student/level/
 // ---------------------------------------------------------------------------
 
 
